@@ -40,6 +40,7 @@ $(function(){
         $.getJSON(repouri, function (json){
           repositories = json;
           var repo_length = repositories.length;
+          //console.log(repo_length);
           //console.log(repositories);
           $.each(json, function (rl) {
             //console.log(rl);
@@ -62,8 +63,17 @@ $(function(){
                   }).done(function () {
                     //console.log(files);
                     num_done++;
-                    if (num_done == repo_length) {    // all done code here
-                      outputFiles(files);
+                    //console.log(num_done);
+                    if (repo_length < 10) {
+                      if (num_done == repo_length) {    // all done code here, or up to certain number of repos (10 at the moment, unordered?)
+                        //console.log(num_done);
+                        outputFiles(files);
+                      }
+                    } else {
+                      console.log(num_done);
+                      if (num_done == 10) {
+                        outputFiles(files);
+                      }
                     }
                   });
                 }
