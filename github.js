@@ -94,7 +94,7 @@ $(function(){
               punch_done++;
               if (punch_done == repositories.length) {
                 outputPunchcard(punchcard);
-                set_punchcard(username, punchcard);
+                push_punchcard(username, punchcard);
               }
             });
           });
