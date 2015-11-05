@@ -191,7 +191,7 @@ function outputPunchcard(punchcard) {
 	var axis = 30;
 	var barPadding = 1;
 
-	d3.select("#pc_text").append("h4").text("So far, you have made a total of " + total_commits + " made to your repositories");
+	d3.select("#pc_text").append("h4").text("So far, you have made a total of " + total_commits + " commits made to your repositories");
 
 	var days_svg = d3.select("#days")
 			            .append("svg")
