@@ -9,7 +9,7 @@ $(function() {
 		var username = $('#ghusername').val();
 
 		var requri   = 'https://api.github.com/users/'+username;
-		var repouri  = 'https://api.github.com/users/'+username + '/repos?sort=updated';
+		var repouri  = 'https://api.github.com/users/'+username + '/repos?sort=pushed';
 
 		$.getJSON(requri, function(json, status, xhr) {
 			if(json.message == "Not Found" || username == '') {
