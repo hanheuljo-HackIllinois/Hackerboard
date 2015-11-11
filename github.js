@@ -28,14 +28,16 @@ $(function() {
 				userRef = usersRef.child(username);
 				var last_mod_db;
 
-				userRef.on("value", function(snapshot) {
-					last_mod_db = snapshot.val().last_modified;
+				userRef.once("value", function(snapshot) {
+					if (snapshot.val() == null) {
+						last_mod_db = undefined;
+					} else {
+						last_mod_db = snapshot.val().last_modified;
+					}
 
 					var last_mod_api = xhr.getResponseHeader('Last-Modified');
 
 					if (last_mod_db === undefined || last_mod_db != last_mod_api) {
-						set_last_mod(username, last_mod_api);
-						console.log("using up thos api calls bruh");
 						var files = [];
 						var repositories;
 						var trees;
@@ -116,8 +118,8 @@ $(function() {
 								});
 							});
 						});
+					set_last_mod(username, last_mod_api);
 					} else {
-						console.log("not using more api calls for this mofo");
 						get_punchcard(username);
 						get_files(username);
 					}
