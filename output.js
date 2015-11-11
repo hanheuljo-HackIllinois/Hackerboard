@@ -4,15 +4,22 @@ function outputFiles(files) {
 	var typecount = {};
 	var total_size = 0;
 	var total_files = 0;
-	for (i = 0; i < files.length; i++) {
+	for (i = 0; i < files.length; ++i) {
 		var name_array = files[i].path.split("/");
 		var file_name = name_array[name_array.length - 1];
 		var file_array = file_name.split(".");
 		var file_type = file_array[file_array.length - 1];
-		if (file_type == file_name || file_type == "gitignore" || file_type == "md") {file_type = "other";}
+		console.log(file_type + " : " + files[i].size);
+		file_type = ext_to_file(file_type);
+//		if (file_type == file_name || file_type == "gitignore" || file_type == "md") {file_type = "other";}
 		total_size += files[i].size;
-		total_files++;
-		if (typecount[file_type] == undefined) {
+		++total_files;
+		if (file_type == "Media") {
+			// Do Nothing
+			total_size -= files[i].size;
+			--total_files;
+		}
+		else if (typecount[file_type] == undefined) {
 			typecount[file_type] = {
 										file_type: file_type,
 										count: 1,
@@ -147,14 +154,18 @@ function outputFiles(files) {
 }
 
 function byteToLength(bytes) {
-	var cm = bytes * .4233;
+	var points_in_mm = 0.35278;
+	var points_in_inch = 0.01389
+	var mm = bytes * points_in_mm * 12;
+	var cm = mm / 100;
+
 	var mi = (cm * .00000621371);
 	var yards = (cm * 0.0109361);
 	if (mi > 1) {
 		return mi.toFixed(2) + " miles";
 	}
 	else {
-		return yards.toFixed(2) + " yards";
+		return yards.toFixed(0) + " yards";
 	}
 
 	/**
@@ -177,7 +188,7 @@ function outputPunchcard(punchcard) {
 	var hours = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 //	console.log(hours.length);
 	var total_commits = 0;
-	for (i = 0; i < punchcard.length; i++) {
+	for (i = 0; i < punchcard.length; ++i) {
 		days[punchcard[i][0]] += punchcard[i][2];
 		hours[punchcard[i][1]] += punchcard[i][2];
 		total_commits += punchcard[i][2];

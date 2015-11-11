@@ -9,7 +9,7 @@ $(function() {
 		var username = $('#ghusername').val();
 
 		var requri   = 'https://api.github.com/users/'+username;
-		var repouri  = 'https://api.github.com/users/'+username + '/repos';
+		var repouri  = 'https://api.github.com/users/'+username + '/repos?sort=updated';
 
 		$.getJSON(requri, function(json, status, xhr) {
 			if(json.message == "Not Found" || username == '') {
@@ -69,7 +69,7 @@ $(function() {
 											$.getJSON(treesuri, function (json) {
 												if (json.message != "Not Found") {
 													trees = json.tree;
-													for (i = 0; i < trees.length; i++) {
+													for (i = 0; i < trees.length; ++i) {
 														if (trees[i].size != undefined) {
 															files.push(trees[i]);
 														}
@@ -103,14 +103,14 @@ $(function() {
 
 								$.getJSON(punchuri, function (json) {		// add if changed (304)
 									if (json && json.message != "Not Found") {
-										for (i = 0; i < json.length; i++) {
+										for (i = 0; i < json.length; ++i) {
 											if (json[i][2] != 0 ) {
 												punchcard.push(json[i]);
 											}
 										}
 									}
 								}).done(function () {
-									punch_done++;
+									++punch_done;
 									if (punch_done == repositories.length) {
 										outputPunchcard(punchcard);
 										push_punchcard(username, punchcard);
