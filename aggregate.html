@@ -4,7 +4,7 @@
 		<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 		<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
-		<script src="d3-tip.js" type="text/javascript"></script>
+        <script src="d3-tip.js" type="text/javascript"></script>
 		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="style.css">
@@ -15,21 +15,14 @@
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3">
 	    			<h1 align="center">Hackerboard</h1>
-
-					<div class="input-group" id="initial">
-						<input type="text" name="ghusername" id="ghusername" class="form-control" placeholder="Github username...">
-						<span class="input-group-btn">
-							<button href="#" id="ghsubmitbtn" class="btn btn-primary button">Pull User Data</button>
-						</span>
-					</div>
 				</div>
 
     			<div class="col-md-12">
     				<!-- All the visualization goes in here -->
     				<div class="row" id="filesnbytes">
     					<div class="row" id="fb_text" align="center"></div>
-    					<div class="col-md-6" id="files" align="center"></div>
-    					<div class="col-md-6" id="bytes" align="center"></div>
+                        <div class="col-md-12" id="files" align="center"></div>
+    					<div class="col-md-12" id="bytes" align="center"></div>
     				</div>
     				<div class="row" id="punchcard">
     					<div class="row" id="pc_text" align="center"></div>
@@ -37,7 +30,7 @@
     					<div class="col-md-6" id="days" align="center"></div>
     				</div>
     				<div class="row">
-    					<div class="row" id="metric_text" align="center"></div>
+                        <div class="row" id="metric_text" align="center"></div>
     					<div class="row" id="map_text" align="center"></div>
     					<div class="col-md-12" id="mapdiv" align="center"></div>
     				</div>
@@ -47,7 +40,6 @@
 						<span><button class="btn btn-primary button" id="mapbutton">PREV</button></span>
 						<span><button class="btn btn-primary button" id="filesbutton">NEXT</button></span>
 						<span><button class="btn btn-primary button" id="commitsbutton">NEXT</button></span>
-				        <span><a href="aggregate.html"><button class="btn btn-primary button" id="aggregate">SHOW AGGREGATE DATA</button></a></span>
     			</div>
     		</div>
   		</div>
@@ -55,11 +47,12 @@
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDF0iSXlEUSEe2NYv6cZH-xhTtszqohGNw"
   		type="text/javascript"></script>
   	<script src="navigate.js" type="text/javascript"></script>
-	<script src="github.js" type="text/javascript"></script>
-	<script src="output.js" type="text/javascript"></script>
 	<script src="map.js" type="text/javascript"></script>
-	<script src="database.js" type="text/javascript"></script>
 	<script src="dictionary.js" type="text/javascript"></script>
+    <script src="aggregate.js" type="text/javascript"></script>
     <script src="draw.js" type="text/javascript"></script>
     <script src="metric.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        outputAggregate();
+    </script>
 </html>

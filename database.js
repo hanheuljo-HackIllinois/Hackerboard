@@ -17,14 +17,14 @@ function push_files(id, files) {
 
 function get_punchcard(id) {
 	var userRef = usersRef.child(id);
-	userRef.on("value", function(snapshot) {
+	userRef.once("value", function(snapshot) {
 		outputPunchcard(snapshot.val().punchcard);
 	});
 }
 
 function get_files(id) {
 	var userRef = usersRef.child(id);
-	userRef.on("value", function(snapshot) {
+	userRef.once("value", function(snapshot) {
 		outputFiles(snapshot.val().files);
 	});
 }
@@ -38,8 +38,7 @@ function set_last_mod(id, time) {
 
 function get_last_mod(id) {
 	var userRef = usersRef.child(id);
-	userRef.on("value", function(snapshot) {
-		console.log(snapshot.val().last_modified);
+	userRef.once("value", function(snapshot) {
 		return snapshot.val().last_modified;
 	});
 }

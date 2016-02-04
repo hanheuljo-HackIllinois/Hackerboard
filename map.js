@@ -27,14 +27,14 @@ function drawMap(radius) {
     map.fitBounds(cityCircle.getBounds());
 /**
     Colors
-    #D76E5D
-    #DAA073
-    #FFF6C6
-    #BBE5F8
-    #5C89C3
-    #575673
-    #322F45
-    #1C1B24
+    #D76E5D     R: 215 G: 110 B:  93 * scale
+    #DAA073     R: 218 G: 160 B: 115 * scale
+    #FFF6C6     R: 255 G: 246 B: 198
+    #BBE5F8     R: 187 G: 229 B: 248
+    #5C89C3     R:  92 G: 137 B: 195 * scale
+    #575673     R:  87 G:  86 B: 115 * scale
+    #322F45     R:  50 G:  47 B:  69 * scale
+    #1C1B24     R:  28 G:  27 B:  36
 */
     map.set('styles', [
     {

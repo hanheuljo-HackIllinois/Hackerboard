@@ -10,6 +10,7 @@ function clearPage() {
 	d3.select("#punchcard").style('display', 'none');
 	d3.select("#commitsbutton").style('display', 'none');
 	d3.select("#mapbutton").style('display', 'none');
+	d3.select("#aggregate").style('display', 'none');
 	d3.select("#navigation").style('display', 'block');
 }
 
@@ -23,6 +24,7 @@ $('#mapbutton').on('click', function(e){
 		$('#mapdiv').fadeIn();
 		$('#filesbutton').fadeIn();
 		$('#map_text').fadeIn();
+		$('#metric_text').fadeIn();
 	});
 	var btn = document.getElementById("filesbutton");
 	btn.innerText = "NEXT";
@@ -32,6 +34,8 @@ $('#filesbutton').on('click', function(e){
 	$('#mapdiv').fadeOut();
 	$('#punchcard').fadeOut();
 	$('#map_text').fadeOut();
+	$('#aggregate').fadeOut();
+	$('#metric_text').fadeOut();
 	$('#filesbutton').fadeOut(function() {
 		$('#mapbutton').fadeIn();
 		$('#commitsbutton').fadeIn();
@@ -47,6 +51,7 @@ $('#commitsbutton').on('click', function(e){
 	$('#commitsbutton').fadeOut(function() {
 		$('#filesbutton').fadeIn();
 		$('#punchcard').fadeIn();
+		$('#aggregate').fadeIn();
 	});
 	var btn = document.getElementById("filesbutton");
 	btn.innerText = "PREV";

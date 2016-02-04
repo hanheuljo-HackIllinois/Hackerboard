@@ -8,8 +8,8 @@ $(function() {
 
 		var username = $('#ghusername').val();
 
-		var requri   = 'https://api.github.com/users/'+username;
-		var repouri  = 'https://api.github.com/users/'+username + '/repos?sort=pushed';
+		var requri   = 'https://api.github.com/users/'+username + "?access_token=2887df9a289c7106e2e481986ab4decadc670e8d";
+		var repouri  = 'https://api.github.com/users/'+username + '/repos?access_token=2887df9a289c7106e2e481986ab4decadc670e8d&sort=pushed';
 
 		$.getJSON(requri, function(json, status, xhr) {
 			if(json.message == "Not Found" || username == '') {
@@ -37,7 +37,7 @@ $(function() {
 
 					var last_mod_api = xhr.getResponseHeader('Last-Modified');
 
-					if (last_mod_db === undefined || last_mod_db != last_mod_api) {
+					if (last_mod_db === undefined || last_mod_db != last_mod_api) { // more cases for not having files or punchcards
 						var files = [];
 						var repositories;
 						var trees;
@@ -53,19 +53,21 @@ $(function() {
 						outhtml = outhtml + '<div class="repolist clearfix">';
 
 						$.getJSON(repouri, function (json){		// add if changed call (304)
+							console.log("using api calls");
 							repositories = json;
 							var repo_length = repositories.length;
+							var punch_length = repo_length;
 							//console.log(repo_length);
 							//console.log(repositories);
 							$.each(json, function (rl) {
 								//console.log(rl);
-								var refsuri = 'https://api.github.com/repos/'+username+'/'+repositories[rl].name+'/git/refs/heads';
+								var refsuri = 'https://api.github.com/repos/'+username+'/'+repositories[rl].name+'/git/refs/heads?access_token=2887df9a289c7106e2e481986ab4decadc670e8d';
 								var sha;
 								if (json[rl].size != 0) {
 									$.getJSON(refsuri, function (json) {
 										if (json && json.message != "Not Found" && json.message != "Git Repository is empty.") {
 											sha = json[0].object.sha;
-											var treesuri = 'https://api.github.com/repos/'+username+'/'+repositories[rl].name+'/git/trees/'+sha+'?recursive=1';
+											var treesuri = 'https://api.github.com/repos/'+username+'/'+repositories[rl].name+'/git/trees/'+sha+'?access_token=2887df9a289c7106e2e481986ab4decadc670e8d&recursive=1';
 											$.getJSON(treesuri, function (json) {
 												if (json.message != "Not Found") {
 													trees = json.tree;
@@ -77,7 +79,7 @@ $(function() {
 												}
 											}).done(function () {
 											//console.log(files);
-											num_done++;
+											++num_done;
 											//console.log(num_done);
 											if (repo_length < 10) {  // go ahead when less than 10 repos
 												if (num_done == repo_length) {    // all done code here, or up to certain number of repos (10 at the moment, unordered?)
@@ -86,7 +88,7 @@ $(function() {
 													push_files(username, files);
 												}
 											} else {
-												console.log(num_done);
+											//	console.log(num_done);
 												if (num_done == 10) {  // limits the number of repos
 													outputFiles(files);
 													push_files(username, files);
@@ -96,35 +98,49 @@ $(function() {
 										}
 									});
 								} else {
-									repo_length--;
+									--repo_length;
 								}
 
-								var punchuri = 'https://api.github.com/repos/'+username+'/'+repositories[rl].name+'/stats/punch_card';
+								var punchuri = 'https://api.github.com/repos/'+username+'/'+repositories[rl].name+'/stats/punch_card?access_token=2887df9a289c7106e2e481986ab4decadc670e8d';
 
-								$.getJSON(punchuri, function (json) {		// add if changed (304)
-									if (json && json.message != "Not Found") {
-										for (i = 0; i < json.length; ++i) {
-											if (json[i][2] != 0 ) {
-												punchcard.push(json[i]);
+								if (json[rl].size != 0) {
+									$.getJSON(punchuri, function (json) {		// add if changed (304)
+										if (json && json.message != "Not Found") {
+											for (i = 0; i < json.length; ++i) {
+												if (json[i][2] != 0 ) {
+													punchcard.push(json[i]);
+												}
 											}
 										}
-									}
-								}).done(function () {
-									++punch_done;
-									if (punch_done == repositories.length) {
-										outputPunchcard(punchcard);
-										push_punchcard(username, punchcard);
-									}
-								});
+									}).done(function () {
+										++punch_done;
+										if (punch_length < 10) {
+											if (punch_done == punch_length) {
+												outputPunchcard(punchcard);
+												push_punchcard(username, punchcard);
+											}
+										} else {
+											if (punch_done == 10) {
+												outputPunchcard(punchcard);
+												push_punchcard(username, punchcard);
+											}
+										}
+									});
+								} else {
+									--punch_length;
+								}
 							});
 						});
-					set_last_mod(username, last_mod_api);
+						set_last_mod(username, last_mod_api);
 					} else {
 						get_punchcard(username);
 						get_files(username);
 					}
 				});
 			}
+		})
+		.error(function() {		// Handle Errors Here
+			$('#ghapidata').html("<h2>No User Info Found</h2>");
 		}); // end requestJSON Ajax call
 	}); // end click event handler
 

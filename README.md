@@ -5,10 +5,16 @@ run hackerboard.html on your browser
 
 TODO:
 
-1. Styling graphs and pages using the color scheme in colors.png
+1. OAuth issue
 
-2. Connect to database so as not to waste api calls
+2. make general claims and metrics
 
-3. Aggregate file extensions for files associated to one language
+3. think of getting location data
 
-4. Disregard media when counting bytes
+4. Add Loading Gif or sth
+
+metrics:
+	If you had a penny for each byte of code you wrote... you could buy ______
+	% of night owls, % of early risers, weekend partygoers (less commits on weekends, more on monday)
+	Try Dictionary of Numbers?
+	
